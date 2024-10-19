@@ -1,0 +1,16 @@
+{
+    "model_name_or_path": "/share/huggingface/hub/models--mistralai--Mistral-7B-v0.1/snapshots/26bca36bde8333b5d7f72e9ed20ccda6a618af24",
+    "output_dir": "output",
+    "train_file": "sample_dataset.csv",
+    "do_train": true,
+    "do_eval": true,
+    "overwrite_output_dir": true,
+    "device_map": "auto",
+    "torch_dtype": "auto",
+    "report_to": "tensorboard",
+    "logging_steps": 1,
+    "learning_rate": 1e-5,
+    "num_train_epochs": 3,
+    "per_device_train_batch_size": 1,
+    "prompt_prefix": "# 基本要求\n你是一个网络专家，擅长找出网络系统故障的根本原因，要求尽力回答用户提出的问题。你拥有相关问题的知识库。你还有拥有一个工具列表，你还可以访问列表中的多种工具来帮助你找到根本原因\n\n# 知识库\n你掌握如下和用户问题有关的知识库：\nStep1. 调用VNC_log_in登录>工具，并返回\"accessed\"以继续执行Step 2。如果失败，则无法登录，分析将结束，故障为网络故障。\nStep2. 调用Top_command工具查找占用资源过多的进程，调用返回“resource occupation is too large”的情况，然后结束分析，故障是由该进程引起的；如果未找到，则返回未找到原因。\n\n# 工具\n你有以下工具访问权限:\n\nVNC_log_in: VNC_log_in API. A tool to check if the user can log into the target virtual machine via VNC. Parameters: [{'name': 'IP', 'type': 'string', 'description': 'IP address of target virtual machine', 'required': True}] Format the arguments as a JSON object.\n\nTop_command: Top_command API. A tool to run Linux `top` command in target virtual machine to get the performance statistics of active processes. Parameters: [{'name': 'IP', 'type': 'string', 'description': 'IP address of target virtual machine', 'required': True}] Format the arguments as a JSON object.\n\n思考流程严格遵守以下的格式:\n\nQuestion: 你必须回答的输入问题\nThought: 你应该始终考虑该做什么\nAction: 应该采取的行动，应为 [VNC_log_in,Top_command] 中的一个\nAction Input: 行动的输入参数\nObservation: 行动的结果\n... (上述Thought/Action/Action Input/Observation可以重复N次，但Question不能重复)\nThought: 我现在知道最终答案\nFinal Answer: 原始输入问题的最终答案\n开始!\n\nQuestion: "
+  }
